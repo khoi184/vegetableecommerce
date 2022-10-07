@@ -1,5 +1,6 @@
 package com.example.vegetableecommerce.entity;
 
+import com.example.vegetableecommerce.auth.CustomUserDetails;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User {
+public class User extends CustomUserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
