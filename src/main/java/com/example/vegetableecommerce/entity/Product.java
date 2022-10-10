@@ -1,6 +1,5 @@
 package com.example.vegetableecommerce.entity;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +22,6 @@ public class Product extends BaseTime {
 
     @NotEmpty(message = "Name must be filled!")
     private String name;
-
     private Long price;
     private String description;
     private Integer quantity;

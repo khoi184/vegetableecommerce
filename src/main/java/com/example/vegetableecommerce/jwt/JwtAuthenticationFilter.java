@@ -56,6 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    //Request Header lay ra chuoi jwt
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         // Kiểm tra xem header Authorization có chứa thông tin jwt không
@@ -64,13 +65,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
-    private CustomUserDetails getUserDetails(String token) {
-        User userDetails = new User();
-        String[] jwtSubject = jwtTokenUtils.getSubject(token).split(",");
-
-        userDetails.setId(Long.parseLong(jwtSubject[0]));
-        userDetails.setEmail(jwtSubject[1]);
-
-        return userDetails;
-    }
+//    private CustomUserDetails getUserDetails(String token) {
+//        User userDetails = new User();
+//        String[] jwtSubject = jwtTokenUtils.getSubject(token).split(",");
+//
+//        userDetails.setId(Long.parseLong(jwtSubject[0]));
+//        userDetails.setEmail(jwtSubject[1]);
+//
+//        return userDetails;
+//    }
 }

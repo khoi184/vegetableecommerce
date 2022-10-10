@@ -1,9 +1,10 @@
-package com.example.vegetableecommerce.controller;
+package com.example.vegetableecommerce.restcontroller;
 
 import com.example.vegetableecommerce.auth.CustomUserDetails;
 import com.example.vegetableecommerce.auth.LoginRequest;
 import com.example.vegetableecommerce.auth.LoginResponse;
 import com.example.vegetableecommerce.dto.SignUpDto;
+import com.example.vegetableecommerce.exception.UsernameExistedException;
 import com.example.vegetableecommerce.jwt.JwtTokenUtil;
 import com.example.vegetableecommerce.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +54,9 @@ public class AuthApi {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
-        try {
-            userService.registerUser(signUpDto);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto) throws UsernameExistedException {
+        userService.registerUser(signUpDto);
+
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 

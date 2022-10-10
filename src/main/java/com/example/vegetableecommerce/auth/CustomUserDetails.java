@@ -1,15 +1,18 @@
 package com.example.vegetableecommerce.auth;
 
+import com.example.vegetableecommerce.entity.Role;
 import com.example.vegetableecommerce.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
@@ -17,9 +20,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
-        return null;
-    } //de role mac dinh la user
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : user.getRole()) {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
+        return authorities;
+    }
 
     @Override
     public String getPassword() {

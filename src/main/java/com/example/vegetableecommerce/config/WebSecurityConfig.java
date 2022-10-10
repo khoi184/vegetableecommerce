@@ -42,6 +42,8 @@ public class WebSecurityConfig {
                 .csrf().disable(); // Ngăn chặn request từ một domain khác
         http.authorizeRequests()
                 .antMatchers("/", "/api/login", "/api/signup").permitAll()// Cho phép tất cả mọi người truy cập vào địa chỉ này
+                .antMatchers("/admin")
+                .hasAuthority("ADMIN")
                 .anyRequest().authenticated() // Tất cả các request khác đều cần phải xác thực mới được truy cập
                 .and()
                 .logout()

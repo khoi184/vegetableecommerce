@@ -3,6 +3,7 @@ package com.example.vegetableecommerce.service.impl;
 import com.example.vegetableecommerce.auth.CustomUserDetails;
 import com.example.vegetableecommerce.dto.SignUpDto;
 import com.example.vegetableecommerce.entity.User;
+import com.example.vegetableecommerce.exception.UsernameExistedException;
 import com.example.vegetableecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,17 +42,17 @@ public class UserServiceImpl implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
-    public SignUpDto registerUser(SignUpDto signUpDto) throws Exception {
+    public void registerUser(SignUpDto signUpDto) throws UsernameExistedException {
             // add check for username exists in a DB
             if(userRepository.existsByUsername(signUpDto.getUsername())){
-               throw new Exception("Username is already taken!");
+               throw new UsernameExistedException();
+            } else {
+                // create user object
+                User user = new User();
+                user.setUsername(signUpDto.getUsername());
+                user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+                userRepository.save(user);
             }
-            // create user object
-            User user = new User();
-            user.setUsername(signUpDto.getUsername());
-            user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-            userRepository.save(user);
-            return signUpDto;
     }
 
 }
