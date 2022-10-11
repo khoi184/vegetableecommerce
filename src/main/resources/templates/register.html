@@ -36,8 +36,17 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <div th:if="${session.message}">
-                                <p th:text="${session.message}" class="alert alert-danger"></p>
+                            <div th:if="${usernameError}">
+                                <p th:text="${usernameError}" class="alert alert-danger"></p>
+                            </div>
+                            <div th:if="${success}">
+                                <p th:text="${success}" class="alert alert-success"></p>
+                            </div>
+                            <div th:if="${passwordError}">
+                                <p th:text="${passwordError}" class="alert alert-danger"></p>
+                            </div>
+                            <div th:if="${error}">
+                                <p th:text="${error}" class="alert alert-danger"></p>
                             </div>
                             <form th:action = "@{/register-new}" th:object="${adminDto}" method="post" class="user">
                                 <div class="form-group row">
@@ -45,7 +54,7 @@
                                         <input type="text" class="form-control form-control-user" th:field= "*{username}" id="exampleFirstName"
                                             placeholder="Username">
                                     </div>
-                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+<!--                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>-->
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" th:field= "*{email}" id="exampleInputEmail"
@@ -64,12 +73,12 @@
                                         <input type="password" class="form-control form-control-user"
                                                th:field= "*{password}" id="exampleInputPassword" placeholder="Password">
                                     </div>
-                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+<!--                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>-->
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
                                                th:field= "*{repeatPassword}" id="exampleRepeatPassword" placeholder="Repeat Password">
                                     </div>
-                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"></div>
+<!--                                    <div class="alert alert-warning" th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"></div>-->
                                 </div>
                                 <input type="submit" value="Register Account" href="login.html" class="btn btn-primary btn-user btn-block">
                             </form>

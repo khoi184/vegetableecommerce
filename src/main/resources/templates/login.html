@@ -41,7 +41,13 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <div th:if="${param.error}" class="alert alert-danger text-center">
+                                        Invalid username or password
+                                    </div>
+                                    <div th:if="${param.logout}" class="alert alert-danger text-center">
+                                        You have been logout!
+                                    </div>
+                                    <form class="user" th:action="@{/do-login}">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
@@ -58,12 +64,8 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
-                                        <hr>
+                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Login">
                                     </form>
-                                    <hr>
                                     <div class="text-center">
                                         <a class="small" th:href="@{/forgot-password}" href="forgot-password.html">Forgot Password?</a>
                                     </div>

@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
@@ -27,7 +28,9 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent arg0) {
         // vai tro
         Role role = new Role();

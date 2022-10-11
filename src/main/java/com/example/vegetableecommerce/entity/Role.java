@@ -22,6 +22,6 @@ public class Role {
 
     private String roleName;
 
-    @ManyToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<User> user;
 }
