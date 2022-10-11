@@ -1,6 +1,5 @@
 package com.example.vegetableecommerce.repository;
 
-import com.example.vegetableecommerce.dto.ProductDto;
 import com.example.vegetableecommerce.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

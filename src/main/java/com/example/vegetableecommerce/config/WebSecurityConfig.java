@@ -1,8 +1,6 @@
 package com.example.vegetableecommerce.config;
 
 import com.example.vegetableecommerce.jwt.JwtAuthenticationFilter;
-import com.example.vegetableecommerce.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -12,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,10 +42,20 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/", "/api/login", "/api/signup").permitAll()// Cho phép tất cả mọi người truy cập vào địa chỉ này
                 .antMatchers("/admin")
-                .hasAuthority("ADMIN")
-                .anyRequest().authenticated() // Tất cả các request khác đều cần phải xác thực mới được truy cập
+                .hasAuthority("ROLE_ADMIN")
+//                .anyRequest().authenticated() // Tất cả các request khác đều cần phải xác thực mới được truy cập
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/do-login")
+                .defaultSuccessUrl("/admin/login")
+                .permitAll()
                 .and()
                 .logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
                 .logoutUrl("/logout")
                 .and().csrf().disable();
 

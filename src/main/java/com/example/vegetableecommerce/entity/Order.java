@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,4 +25,6 @@ public class Order extends BaseTime {
     private Integer quantity;
     private Long order_details_id;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order_id", fetch = FetchType.LAZY)
+    private List<Cart> cart;
 }

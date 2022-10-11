@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,6 +22,6 @@ public class Role {
 
     private String roleName;
 
-    @ManyToMany(mappedBy = "role")
-    private Collection<User> user;
+    @ManyToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private Set<User> user;
 }

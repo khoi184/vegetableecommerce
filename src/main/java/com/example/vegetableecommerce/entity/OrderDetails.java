@@ -22,7 +22,6 @@ public class OrderDetails extends BaseTime {
     private Integer status;
     private String address;
     private String phone;
-    private Long userId;
     private Double unitPrice;
     private Double totalPrice;
 

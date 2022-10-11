@@ -22,8 +22,8 @@ public class Cart {
     private Double unitPrice;
     private Double totalPrice;
     private Integer quantity;
-    private Long user_id;
+    private Long order_id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cart_id")
-    private List<Product> productList;
+    private List<Product> product;
 }
