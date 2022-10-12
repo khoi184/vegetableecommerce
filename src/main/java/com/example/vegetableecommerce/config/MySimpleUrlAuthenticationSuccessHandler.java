@@ -35,7 +35,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
                 }
             } else if (authority.getAuthority().equals("ROLE_ADMIN")) {
                 try {
-                    redirectStrategy.sendRedirect(request, response, "/admin-page");
+                    redirectStrategy.sendRedirect(request, response, "/admin/admin-page");
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

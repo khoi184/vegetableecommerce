@@ -56,7 +56,6 @@ public class WebSecurityConfig {
                 .loginPage("/login")
                 .loginProcessingUrl("/login") //submit username and password
                 .successHandler(authenticationSuccessHandler())
-                .failureForwardUrl("/login?error")
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
