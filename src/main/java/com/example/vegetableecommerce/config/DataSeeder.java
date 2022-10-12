@@ -50,7 +50,7 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
             User admin = new User();
 
             admin.setEmail("admin@gmail.com");
-            admin.setPassword(passwordEncoder().encode("123456"));
+            admin.setPassword(passwordEncoder().encode("admin"));
             admin.setUsername("admin");
             admin.setPhone("123456789");
             admin.setRole(roles);

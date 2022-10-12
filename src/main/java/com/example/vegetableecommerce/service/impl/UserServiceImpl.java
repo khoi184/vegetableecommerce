@@ -71,7 +71,6 @@ public class UserServiceImpl implements UserDetailsService {
             user.setPhone(signUpDto.getPhone());
             user.setAddress(signUpDto.getAddress());
             user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
-//            user.setRole(Arrays.asList(roleRepository.findByRoleName("ADMIN")));
             user.setRole(roles);
             userRepository.save(user);
             log.info(signUpDto.getUsername() +" user is added. " + signUpDto.getUsername() + " has User Role.");

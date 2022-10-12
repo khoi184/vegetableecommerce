@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -28,7 +29,6 @@ public class WebSecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         // Password encoder, để Spring Security sử dụng mã hóa mật khẩu người dùng
@@ -36,27 +36,33 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new MySimpleUrlAuthenticationSuccessHandler();
+    }
+
+    @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable(); // Ngăn chặn request từ một domain khác
         http.authorizeRequests()
-                .antMatchers("/", "/api/login", "/api/signup").permitAll()// Cho phép tất cả mọi người truy cập vào địa chỉ này
-                .antMatchers("/admin")
-                .hasAuthority("ROLE_ADMIN")
-//                .anyRequest().authenticated() // Tất cả các request khác đều cần phải xác thực mới được truy cập
+//                .antMatchers("/", "/api/login", "/api/signup").permitAll()// Cho phép tat cả mọi người truy cập vào địa chỉ này
+                .antMatchers("/product/add", "/cart/add-to-cart")
+                .hasRole("USER")
+                .antMatchers("/admin","/admin/**")
+                .hasRole("ADMIN")
+                .anyRequest().permitAll() // Tất cả các request khác đều cần phải xác thực mới được truy cập
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/do-login")
-                .defaultSuccessUrl("/index")
+                .loginProcessingUrl("/login") //submit username and password
+                .successHandler(authenticationSuccessHandler())
                 .failureForwardUrl("/login?error")
-                .permitAll()
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/login.html?logout=true")
                 .logoutUrl("/logout")
                 .and().csrf().disable();
 

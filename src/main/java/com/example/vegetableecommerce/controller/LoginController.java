@@ -10,9 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LoginController {
@@ -20,9 +18,14 @@ public class LoginController {
     @Autowired
     private UserServiceImpl userService;
 
-    @GetMapping("/admin/login")
+    @GetMapping("/login")
     public String loginForm() {
         return "login";
+    }
+
+    @RequestMapping("/admin-page")
+    public String home() {
+        return "/admin-page/admin-page";
     }
 
     @GetMapping("/register")
