@@ -19,23 +19,27 @@ public class LoginController {
     private UserServiceImpl userService;
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(Model model) {
+        model.addAttribute("title", "Login");
         return "login";
     }
 
     @RequestMapping("/admin/admin-page")
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute("title", "Admin - Dashboard");
         return "/admin-page/admin-page";
     }
 
     @GetMapping("/register")
     public String register(Model model) {
+        model.addAttribute("title", "Register");
         model.addAttribute("adminDto", new SignUpDto());
         return "register";
     }
 
     @GetMapping("/forgot-password")
     public String forgotPassword(Model model) {
+        model.addAttribute("title", "Forgot Password");
         return "forgot-password";
     }
 
@@ -57,7 +61,7 @@ public class LoginController {
 //                session.setAttribute("message", "Your username has been registered!");
                 return "register";
             }
-            if (signUpDto.getPassword().equals(signUpDto.getRepeatPassword())){
+            if (signUpDto.getPassword().equals(signUpDto.getRepeatPassword())) {
                 userService.registerUser(signUpDto);
 //                session.setAttribute("message", "Register successfully!");
                 model.addAttribute("adminDto", signUpDto);

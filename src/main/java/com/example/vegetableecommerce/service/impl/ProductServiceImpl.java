@@ -4,6 +4,7 @@ import com.example.vegetableecommerce.common.Constants;
 import com.example.vegetableecommerce.dto.ProductDto;
 import com.example.vegetableecommerce.entity.Product;
 import com.example.vegetableecommerce.exception.NotFoundIdentityException;
+import com.example.vegetableecommerce.exception.ItemNotFoundException;
 import com.example.vegetableecommerce.exception.UsernameExistedException;
 import com.example.vegetableecommerce.repository.ProductRepository;
 import com.example.vegetableecommerce.service.ProductService;
@@ -12,8 +13,10 @@ import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,15 +34,13 @@ public class ProductServiceImpl implements ProductService {
             product.setPrice(productDto.getPrice());
             product.setDescription(productDto.getDescription());
             product.setQuantity(productDto.getQuantity());
-            product.setCategory(productDto.getCategory());
             product.setDiscount(productDto.getDiscount());
             product.setProducer(productDto.getProducer());
             product.setAvatarImage(productDto.getAvatarImage());
             product.setStatus(Constants.ENABLE_STATUS);
             product.setUpdatedBy(productDto.getUpdatedBy());
             productRepository.save(product);
-        }
-        else {
+        } else {
             throw new UsernameExistedException();
         }
         return productDto;
@@ -50,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto updateProduct(ProductDto productDto, Long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isPresent()) {
-            Optional<Product> optional =  productRepository.findByName(productDto.getName());
+            Optional<Product> optional = productRepository.findByName(productDto.getName());
             Product product = optionalProduct.get();
             if (optional.isEmpty() || product.getId().equals(optional.get().getId())
                     || optional.get().getName().length() > 0) {
@@ -58,7 +59,6 @@ public class ProductServiceImpl implements ProductService {
                 product.setPrice(productDto.getPrice());
                 product.setDescription(productDto.getDescription());
                 product.setQuantity(productDto.getQuantity());
-                product.setCategory(productDto.getCategory());
                 product.setDiscount(productDto.getDiscount());
                 product.setProducer(productDto.getProducer());
                 product.setAvatarImage(productDto.getAvatarImage());
@@ -75,20 +75,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
-        Optional<Product> optionalProduct = productRepository.findById(id);
-        if (optionalProduct.isPresent()) {
-            Optional<Product> optional =  productRepository.findByIdAndStatus(id, Constants.ENABLE_STATUS);
-            Product product = optionalProduct.get();
-            if (optional.isPresent()) {
-                product.setStatus(Constants.UNABLE_STATUS);
-                product.setUpdateAt(LocalDate.now());
-                productRepository.save(product);
-            } else {
-                throw new NotFoundIdentityException(id);
-            }
-        } else {
-            throw new NotFoundIdentityException(id);
+        List<Product> productList = productRepository.findAllByIdAndStatus(id, Constants.ENABLE_STATUS);
+        if (CollectionUtils.isEmpty(productList)) {
+            throw new ItemNotFoundException();
         }
+        for (Product product : productList) {
+            product.setStatus(Constants.UNABLE_STATUS);
+            product.setUpdateAt(LocalDate.now());
+            productRepository.save(product);
+        }
+
     }
 
     @Override

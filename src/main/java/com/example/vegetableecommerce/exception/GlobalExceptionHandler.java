@@ -21,4 +21,12 @@ public class GlobalExceptionHandler {
     public String handleNotFoundIdentityException(NotFoundIdentityException e) {
         return e.getMessage();
     }
+
+
+    @ResponseBody
+    @ExceptionHandler({ItemNotFoundException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleProductNotFoundException(NotFoundIdentityException e) {
+        return e.getMessage();
+    }
 }

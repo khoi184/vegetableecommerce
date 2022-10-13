@@ -25,12 +25,16 @@ public class Product extends BaseTime {
     private Long price;
     private String description;
     private Integer quantity;
-    private String category;
     private Integer discount;
     private String producer;
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
     private String avatarImage;
     private Long cart_id;
-    private Long category_id;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product_id")
     private List<Image> image;

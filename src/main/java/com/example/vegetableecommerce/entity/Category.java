@@ -21,6 +21,8 @@ public class Category extends BaseTime {
     private String name;
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category_id")
-    private List<Product> product;
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }
